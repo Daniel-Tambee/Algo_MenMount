@@ -12,9 +12,14 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependencies
+          name: Clear APT cache
           command: |
-            apt-get update && apt-get install -y \
+            rm -rf /var/lib/apt/lists/*
+      - run:
+          name: Update APT and Install Dependencies
+          command: |
+            apt-get update && \
+            apt-get install -y \
               apt-transport-https \
               ca-certificates \
               curl \
