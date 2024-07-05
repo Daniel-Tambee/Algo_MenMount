@@ -20,13 +20,13 @@ jobs:
           command: |
             apt-get update && \
             apt-get install -y \
+              git \
+              npm \
+              curl \
               apt-transport-https \
               ca-certificates \
-              curl \
-              gnupg \
-              lsb-release \
-              git \
-              npm
+              software-properties-common \
+              lsb-release
       - run:
           name: Install Docker
           command: |
