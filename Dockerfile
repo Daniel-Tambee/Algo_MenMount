@@ -3,7 +3,7 @@ FROM ubuntu:22.04
 
 # Set the environment variables to non-interactive
 ENV DEBIAN_FRONTEND=noninteractive
-   
+
 # Install necessary packages
 RUN apt-get update && apt-get install -y \
     git \
@@ -61,6 +61,13 @@ RUN /root/.local/bin/pipx install algokit
 # Set up the environment
 ENV PATH="/root/.local/bin:${PATH}"
 
+# Copy and configure Docker entrypoint script
+COPY dind-entrypoint.sh /usr/local/bin/dind-entrypoint.sh
+RUN chmod +x /usr/local/bin/dind-entrypoint.sh
+
+# Set entrypoint
+ENTRYPOINT ["/usr/local/bin/dind-entrypoint.sh"]
+
 # Verify installation
 RUN docker --version && \
     docker compose version && \
@@ -69,5 +76,5 @@ RUN docker --version && \
     python3.12 --version && \
     algokit --version
 
-# Entry point
+# Default command
 CMD ["bash"]
