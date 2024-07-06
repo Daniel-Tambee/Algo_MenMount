@@ -4,7 +4,7 @@ FROM ubuntu:22.04
 # Set the environment variables to non-interactive
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install necessary packages
+# Install necessary packages so
 RUN apt-get update && apt-get install -y \
     git \
     npm \

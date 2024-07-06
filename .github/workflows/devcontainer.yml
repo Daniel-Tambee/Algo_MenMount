@@ -1,4 +1,4 @@
-name: Build and Test DevContainer
+name: Build, Test, and Push DevContainer
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx 
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
       - name: Login to DockerHub
@@ -35,6 +35,13 @@ jobs:
             docker compose version &&
             git --version &&
             npm --version &&
+            python3.12 --version &&
             algokit --version &&
             algokit localnet start
           "
+
+      - name: Tag the Docker image
+        run: docker tag algokit_in_docker ${{ secrets.DOCKER_USERNAME }}/algokit_in_docker:latest
+
+      - name: Push the Docker image to DockerHub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/my-python-dev-container:latest
