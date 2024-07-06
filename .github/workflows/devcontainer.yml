@@ -41,7 +41,7 @@ jobs:
           "
 
       - name: Tag the Docker image
-        run: docker tag my-python-dev-container ${{ secrets.DOCKER_USERNAME }}/my-python-dev-container:latest
+        run: docker tag my-tealscript-dev-container ${{ secrets.DOCKER_USERNAME }}/my-tealscript-dev-container:latest
 
       - name: Push the Docker image to DockerHub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/my-python-dev-container:latest
