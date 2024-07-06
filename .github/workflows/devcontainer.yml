@@ -41,7 +41,7 @@ jobs:
           "
 
       - name: Tag the Docker image
-        run: docker tag my-tealscript-dev-container danieltambee@gmail.com/my-tealscript-dev-container:latest
+        run: docker tag my-tealscript-dev-container ipoopgummybears/my-tealscript-dev-container:latest
 
       - name: Push the Docker image to DockerHub
-        run: docker push danieltambee@gmail.com/my-tealscript-dev-container:latest
+        run: docker push ipoopgummybears/my-tealscript-dev-container:latest
