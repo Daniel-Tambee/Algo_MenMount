@@ -3,7 +3,7 @@ FROM ubuntu:22.04
 
 # Set the environment variables to non-interactive
 ENV DEBIAN_FRONTEND=noninteractive
-
+   
 # Install necessary packages
 RUN apt-get update && apt-get install -y \
     git \
@@ -14,6 +14,21 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     lsb-release \
     gnupg \
+    build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    libncurses5-dev \
+    libncursesw5-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libgdbm-dev \
+    libdb5.3-dev \
+    libbz2-dev \
+    libexpat1-dev \
+    liblzma-dev \
+    tk-dev \
+    libffi-dev \
+    wget \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Docker (Docker in Docker) with Compose plugin
@@ -24,14 +39,21 @@ RUN mkdir -p /etc/apt/keyrings \
     && apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python 3.12 and PipX
-RUN add-apt-repository ppa:deadsnakes/ppa \
-    && apt-get update \
-    && apt-get install -y python3.12 python3.12-venv python3-pip \
+# Install Python 3.12 from source
+RUN wget https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz \
+    && tar -xvf Python-3.12.0.tgz \
+    && cd Python-3.12.0 \
+    && ./configure --enable-optimizations \
+    && make -j $(nproc) \
+    && make altinstall \
+    && cd .. \
+    && rm -rf Python-3.12.0 Python-3.12.0.tgz
+
+# Install PipX
+RUN python3.12 -m ensurepip \
     && python3.12 -m pip install --upgrade pip \
     && python3.12 -m pip install --user pipx \
-    && /root/.local/bin/pipx ensurepath \
-    && rm -rf /var/lib/apt/lists/*
+    && /root/.local/bin/pipx ensurepath
 
 # Install AlgoKit using PipX
 RUN /root/.local/bin/pipx install algokit
