@@ -26,11 +26,11 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build the Docker image
-        run: docker build -t my-python-dev-container .
+        run: docker build -t my-tealscript-dev-container .
 
       - name: Run container and test installation
         run: |
-          docker run --privileged --rm my-python-dev-container bash -c "
+          docker run --privileged --rm my-tealscript-dev-container bash -c "
             docker --version &&
             docker compose version &&
             git --version &&
@@ -44,4 +44,4 @@ jobs:
         run: docker tag my-tealscript-dev-container danieltambee/my-tealscript-dev-container:latest
 
       - name: Push the Docker image to DockerHub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/my-python-dev-container:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/my-tealscript-dev-container:latest
