@@ -1,14 +1,12 @@
-#!/bin/bash
-set -e
+#!/bin/sh
+# Start the Docker daemon in the background
+dockerd &
 
-# Start Docker daemon
-/usr/bin/dockerd &
-
-# Wait until Docker daemon is running
-while (! docker stats --no-stream ); do
-  echo "Waiting for Docker to launch..."
-  sleep 1
+# Wait for the Docker daemon to start
+while ! docker info > /dev/null 2>&1; do
+    echo "Waiting for Docker daemon to start..."
+    sleep 1
 done
 
-# Execute the original command
+# Execute the passed command
 exec "$@"
