@@ -4,10 +4,9 @@ FROM ubuntu:22.04
 # Set the environment variables to non-interactive
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install necessary packages so
+# Install necessary packages
 RUN apt-get update && apt-get install -y \
     git \
-    npm \
     curl \
     apt-transport-https \
     ca-certificates \
@@ -37,6 +36,11 @@ RUN mkdir -p /etc/apt/keyrings \
     && echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list \
     && apt-get update \
     && apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js from NodeSource
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python 3.12 from source
@@ -73,6 +77,7 @@ RUN docker --version && \
     docker compose version && \
     git --version && \
     npm --version && \
+    node --version && \
     python3.12 --version && \
     algokit --version
 
